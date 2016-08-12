@@ -1,7 +1,6 @@
 {
   "name": "regional-environment",
   "main": "index.js",
-  "version": "0.0.0",
   "description": "Configure your editor environment to be suitable for each project",
   "keywords": [],
   "repository": {
