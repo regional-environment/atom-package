@@ -1,0 +1,31 @@
+{
+  "name": "regional-environment",
+  "main": "index.js",
+  "version": "0.0.0",
+  "description": "Configure your editor environment to be suitable for each project",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/regional-environment/atom-package.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": "^1.9.8"
+  },
+  "devDependencies": {
+    "standard": "*"
+  },
+  "dependencies": {
+    "regional-environment": "^0.1.1"
+  },
+  "bugs": {
+    "url": "https://github.com/regional-environment/atom-package/issues"
+  },
+  "homepage": "https://github.com/regional-environment/atom-package#readme",
+  "scripts": {
+    "test": "bash -c ./test.sh",
+    "fix": "bash -c ./fix.sh",
+    "clean": "bash -c ./clean.sh"
+  },
+  "author": "Hoàng Văn Khải <hvksmr1996@gmail.com>"
+}
