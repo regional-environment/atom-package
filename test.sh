@@ -6,7 +6,4 @@
 		echo "Bad Code Style" >&2
 		exit 2
 	)
-) && (
-	echo Result of \`require\(\'$(pwd)\'\)\`
-	node -p "require('.')"
 )
