@@ -1,9 +1,9 @@
 (
-	echo Checking Code Style
+	printf "Checking Code Style... "
 	standard && (
-		echo "Acceptable Code Style"
+		echo "passed"
 	) || (
-		echo "Bad Code Style" >&2
+		echo "failed" >&2
 		exit 2
 	)
 )
