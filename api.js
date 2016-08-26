@@ -34,6 +34,21 @@ function init ({subscriptions}) {
     workspace.onDidAddPaneItem(createPaneItemListener(emitOpenFile)),
     workspace.onDidDestroyPaneItem(createPaneItemListener(emitCloseFile))
   )
+
+  const api = {
+    on (type, fn) {
+      emitter.on(type, fn)
+      return api
+    },
+    emit (...args) {
+      emitter.emit(...args)
+      return api
+    },
+    atom: {emitter},
+    __proto__: null
+  }
+
+  return api
 }
 
 function createFileDescriptor (editor) {
