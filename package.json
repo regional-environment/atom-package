@@ -12,7 +12,7 @@
     "atom": "^1.9.8"
   },
   "devDependencies": {
-    "standard": "*"
+    "standard": "8.0.0"
   },
   "dependencies": {
     "regional-environment": "^0.1.1"
