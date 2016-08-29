@@ -2,10 +2,8 @@
 
 const {CompositeDisposable} = require('atom')
 
-let subscriptions = null
-
 function activate ({on}) {
-  subscriptions = new CompositeDisposable(
+  return new CompositeDisposable(
     on('enter-file', filedesc => {}),
     on('leave-file', filedesc => {}),
     on('open-file', filedesc => {}),
@@ -17,15 +15,9 @@ function activate ({on}) {
   )
 }
 
-function deactivate () {
-  subscriptions.dispose()
-  subscriptions = null
-}
+function deactivate () {}
 
 module.exports = {
   activate,
-  deactivate,
-  get subscriptions () {
-    return subscriptions
-  }
+  deactivate
 }
