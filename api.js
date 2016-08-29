@@ -51,14 +51,28 @@ function init ({subscriptions}) {
     workspace.onDidDestroyPaneItem(createPaneItemListener(emitCloseFile))
   )
 
+  const createApiDisposable = (...args) => ({
+    dispose () {
+      api.removeListener(...args)
+    },
+    __proto__: api
+  })
+
   const api = {
     on (type, fn) {
       emitter.on(type, fn)
-      return api
+      return createApiDisposable(api)
+    },
+    once (type, fn) {
+      const disposable = api.on(type, (...args) => {
+        disposable.dispose()
+        fn(...args)
+      })
+      return disposable
     },
     emit (...args) {
       emitter.emit(...args)
-      return api
+      return createApiDisposable(api)
     },
     atom: {emitter},
     __proto__: apiProto
