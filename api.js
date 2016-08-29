@@ -4,6 +4,22 @@ const EventEmitter = require('events')
 const {TextEditor} = require('atom')
 const {workspace} = global.atom
 
+const apiProto = {
+  onEnterFile (fn) {
+    return this.on('enter-file', fn)
+  },
+  onLeaveFile (fn) {
+    return this.on('leave-file', fn)
+  },
+  onOpenFile (fn) {
+    return this.on('open-file', fn)
+  },
+  onCloseFile (fn) {
+    return this.on('close-file', fn)
+  },
+  __proto__: null
+}
+
 function init ({subscriptions}) {
   const createEmitCaller = (tab, file) => (_editor = editor, _filedesc = filedesc) => {
     emitter.emit(tab, _editor)
@@ -45,7 +61,7 @@ function init ({subscriptions}) {
       return api
     },
     atom: {emitter},
-    __proto__: null
+    __proto__: apiProto
   }
 
   return api
