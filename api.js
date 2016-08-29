@@ -17,6 +17,9 @@ const apiProto = {
   onCloseFile (fn) {
     return this.on('close-file', fn)
   },
+  addListener (...args) {
+    return this.on(...args)
+  },
   __proto__: null
 }
 
