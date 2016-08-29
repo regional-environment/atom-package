@@ -20,7 +20,8 @@ function deactivate () {
 }
 
 module.exports = {
-  activate, deactivate,
+  activate,
+  deactivate,
   get subscriptions () {
     return subscriptions
   },
