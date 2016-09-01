@@ -39,10 +39,11 @@ function init ({subscriptions}) {
 
   const projectpaths = new Set(project.getPaths())
   const onProjectDidChangePaths = paths => {
-    emitter.emit('atom/did-change-path', [...paths])
-    emitter.emit('change-projects', [...paths])
+    const projectdesc = dirname => ({dirname, __proto__: null})
     const emit = (type, dirname) =>
       emitter.emit(type, {dirname, __proto__: null})
+    emitter.emit('atom/did-change-path', [...paths])
+    emitter.emit('change-projects', paths.map(projectdesc))
     for (const item of projectpaths) {
       if (!paths.has(item)) {
         projectpaths.delete(item)
