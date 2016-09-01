@@ -8,6 +8,7 @@ function activate ({on}) {
     on('leave-file', filedesc => {}),
     on('open-file', filedesc => {}),
     on('close-file', filedesc => {}),
+    on('change-projects', projectdescset => {}),
     on('add-project', projectdesc => {}),
     on('remove-project', projectdesc => {}),
     on('atom/enter-tab', editor => {}),
