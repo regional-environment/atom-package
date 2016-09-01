@@ -2,7 +2,7 @@
 
 const EventEmitter = require('events')
 const {TextEditor} = require('atom')
-const {workspace} = global.atom
+const {workspace, project} = global.atom
 
 const apiProto = {
   onEnterFile (fn) {
@@ -37,6 +37,26 @@ function init ({subscriptions}) {
   const emitOpenFile = createEmitCaller('atom/open-tab', 'open-file')
   const emitCloseFile = createEmitCaller('atom/close-tab', 'close-file')
 
+  const projectpaths = new Set(project.getPaths())
+  const onProjectDidChangePaths = paths => {
+    emitter.emit('atom/did-change-path', [...paths])
+    emitter.emit('change-projects', [...paths])
+    const emit = (type, dirname) =>
+      emitter.emit(type, {dirname, __proto__: null})
+    for (const item of projectpaths) {
+      if (!paths.has(item)) {
+        projectpaths.delete(item)
+        emit('remove-project', item)
+      }
+    }
+    for (const item of paths) {
+      if (!projectpaths.has(item)) {
+        projectpaths.add(item)
+        emit('add-project', item)
+      }
+    }
+  }
+
   const emitter = new EventEmitter()
   let editor = null
   let filedesc = null
@@ -51,7 +71,8 @@ function init ({subscriptions}) {
       }
     }),
     workspace.onDidAddPaneItem(createPaneItemListener(emitOpenFile)),
-    workspace.onDidDestroyPaneItem(createPaneItemListener(emitCloseFile))
+    workspace.onDidDestroyPaneItem(createPaneItemListener(emitCloseFile)),
+    project.onDidChangePaths(onProjectDidChangePaths)
   )
 
   const createApiDisposable = (...args) => ({
