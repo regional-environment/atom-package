@@ -2,7 +2,7 @@
 
 const EventEmitter = require('events')
 const {TextEditor} = require('atom')
-const {workspace, project} = global.atom
+const {workspace, project, notifications} = global.atom
 
 const apiProto = {
   onEnterFile (fn) {
@@ -19,6 +19,9 @@ const apiProto = {
   },
   addListener (...args) {
     return this.on(...args)
+  },
+  get notifications () {
+    return notifications
   },
   __proto__: null
 }
