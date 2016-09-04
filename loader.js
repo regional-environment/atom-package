@@ -1,5 +1,6 @@
 'use strict'
 
+const {join: joinPath} = require('path')
 const {readdir, readFile, statSync} = require('fs')
 const {arch, platform} = require('process')
 const {CompositeDisposable} = require('atom')
@@ -59,8 +60,11 @@ function enable () {}
 function disable () {}
 
 function loadEnvConfig (dirname) {
-  items(dirname, ['js']) // do something more...
-  items(dirname, ['json']) // do something more...
+  yield * items(dirname, ['js'])
+    .map(({subdirname, name}) => require(joinPath(subdirname, name)))
+    .map(({plugins}) => plugins)
+    .spread()
+  yield * items(dirname, ['json']) // do something more...
 }
 
 module.exports = {
