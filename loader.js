@@ -6,6 +6,7 @@ const {arch, platform} = require('process')
 const {CompositeDisposable} = require('atom')
 const regenv = require('regional-environment')
 const SymMap = require('./lib/sym-map.js')
+const callonce = require('./lib/once-fn-map.js').create().fn
 
 const OPTIONAL_ENV_CONFIG = ['atom', arch, platform]
 
@@ -62,7 +63,7 @@ function disable () {}
 function loadEnvConfig (dirname) {
   yield * items(dirname, ['js'])
     .map(({subdirname, name}) => require(joinPath(subdirname, name)))
-    .map(({plugins}) => plugins)
+    .map(fn => callonce(fn))
     .spread()
   yield * items(dirname, ['json']) // do something more...
 }
