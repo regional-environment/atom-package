@@ -1,12 +1,15 @@
 'use strict'
 
 const {join: joinPath} = require('path')
-const {readdir, readFile, statSync} = require('fs')
+const {readdir, readFileSync, statSync} = require('fs')
 const {arch, platform} = require('process')
 const {CompositeDisposable} = require('atom')
 const regenv = require('regional-environment')
 const SymMap = require('./lib/sym-map.js')
-const callonce = require('./lib/once-fn-map.js').create().fn
+// const callonce = require('./lib/once-fn-map.js').create().fn
+
+const DONOTHING = () => {}
+const ENCODE_UTF8 = {encoding: 'utf8'}
 
 const OPTIONAL_ENV_CONFIG = ['atom', arch, platform]
 
@@ -62,11 +65,28 @@ function disable () {}
 
 function loadEnvConfig (dirname) {
   yield * items(dirname, ['js'])
-    .map(({subdirname, name}) => require(joinPath(subdirname, name)))
-    .map(fn => callonce(fn))
+    .map(
+      ({subdirname, name}) =>
+        require(joinPath(subdirname, name))
+    )
+    .map(
+      ({pluginnames, onLoadEachPlugin = DONOTHING}) =>
+        loadPlugins(pluginnames).map(plugin => plugin.on('load', onLoadEachPlugin))
+    )
     .spread()
-  yield * items(dirname, ['json']) // do something more...
+  yield * items(dirname, ['json'])
+    .map(
+      ({subdirname, name}) =>
+        readFileSync(joinPath(subdirname, name), ENCODE_UTF8)
+    )
+    .map(
+      jsonstring =>
+        loadPlugins(JSON.parse(jsonstring))
+    )
+    .spread()
 }
+
+function loadPlugins () {}
 
 module.exports = {
   activate,
