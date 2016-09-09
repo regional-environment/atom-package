@@ -15,7 +15,8 @@
     "standard": "8.0.0"
   },
   "dependencies": {
-    "regional-environment": "^0.1.2"
+    "regional-environment": "^0.1.2",
+    "promise-set": "^1.0.0"
   },
   "bugs": {
     "url": "https://github.com/regional-environment/atom-package/issues"
