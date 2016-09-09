@@ -63,7 +63,7 @@ function enable () {}
 
 function disable () {}
 
-function loadEnvConfig (dirname) {
+function * loadEnvConfig (dirname) {
   yield * items(dirname, ['js'])
     .map(
       ({subdirname, name}) =>
