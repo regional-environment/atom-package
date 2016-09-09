@@ -23,10 +23,10 @@
   },
   "homepage": "https://github.com/regional-environment/atom-package#readme",
   "scripts": {
-    "test": "bash -c ./test.sh",
-    "fix": "bash -c ./fix.sh",
-    "clean": "bash -c ./clean.sh",
-    "release": "bash -c './release $1'"
+    "test": "bash -c ./sh/test.sh",
+    "fix": "bash -c ./sh/fix.sh",
+    "clean": "bash -c ./sh/clean.sh",
+    "release": "bash -c './sh/release $1'"
   },
   "author": "Hoàng Văn Khải <hvksmr1996@gmail.com>",
   "version": "0.0.0"
