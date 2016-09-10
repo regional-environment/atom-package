@@ -7,3 +7,4 @@ cleandir () (
 
 cleandir .
 cleandir lib
+cleandir sh
