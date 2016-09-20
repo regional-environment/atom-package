@@ -70,8 +70,7 @@ function * loadEnvConfig (dirname) {
         require(joinPath(subdirname, name))
     )
     .map(
-      ({pluginnames, onLoadEachPlugin = DONOTHING}) =>
-        loadPlugins(pluginnames).map(plugin => plugin.on('load', onLoadEachPlugin))
+      loadPlugins
     )
     .spread()
   yield * items(dirname, ['json'])
@@ -81,12 +80,39 @@ function * loadEnvConfig (dirname) {
     )
     .map(
       jsonstring =>
-        loadPlugins(JSON.parse(jsonstring))
+        JSON.parse(jsonstring)
+    )
+    .map(
+      loadPlugins
     )
     .spread()
 }
 
-function loadPlugins () {}
+function loadPlugins ({packages, atomPackages}) {
+  for (const pkgName in packages) {
+    const pkgInfo = packages[pkgName]
+    if (!pkgInfo) {
+      // TODO: Create an Error notification
+      return
+    }
+    switch (typeof pkgInfo) {
+      case 'string':
+        // NOTE: It's a Git Repo
+        // TODO: Download and Install the Repo itself
+        break
+      case 'object':
+        // NOTE: It's still a Git Repo, but from GitHub
+        // TODO: Download things from its Release page
+        break
+    }
+  }
+  /*
+    TODO:
+      * Create an Array of local private Promise instances
+      * Create an Array of EventEmitter to manage the these Promise instances
+      * Export the Array of EventEmitter instances
+  */
+}
 
 module.exports = {
   activate,
